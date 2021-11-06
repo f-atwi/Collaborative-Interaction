@@ -85,8 +85,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 873}
-  viewIdField: 1
-  InstantiationId: 1
+  viewIdField: 10
+  InstantiationId: 10
   isRuntimeInstantiated: 0
 --- !u!1 &151
 GameObject:
@@ -251,12 +251,12 @@ PrefabInstance:
     - target: {fileID: 7874388276701997247, guid: 0c4522289fb4a6f47a4494ec03656b7c,
         type: 3}
       propertyPath: viewIdField
-      value: 2
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7874388276701997247, guid: 0c4522289fb4a6f47a4494ec03656b7c,
         type: 3}
       propertyPath: InstantiationId
-      value: 2
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c4522289fb4a6f47a4494ec03656b7c, type: 3}

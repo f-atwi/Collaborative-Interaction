@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 namespace WasaaMP {
     public class InteractiveObject : MonoBehaviourPun {
@@ -12,46 +13,47 @@ namespace WasaaMP {
         public int required_players = 2;
         private bool catchable = false;
         private bool caught = false;
-        private List<Transform> handles;
+        private List<Tuple<Transform,Transform>> handles;
         private float rubberbanding = 0.45f;
 
         void Start() {
             var children = transform.GetComponentInChildren<Transform>();
-            handles = new List<Transform>();
+            handles = new List<Tuple<Transform,Transform>>();
             foreach (Transform child in children)
             {
-                if (child.parent == transform)
-                    handles.Add(child);
+                if (child.GetChild(0).tag == "Handle")
+                    handles.Add(new Tuple<Transform,Transform>(child,child.GetChild(0)));
             }
+            print("handle1 is "+handles[0].Item1+" and " + handles[0].Item2);
         }
 
         void Update() {
-            Vector3 push =new Vector3(0,0,0);
-            Vector3 pos = new Vector3(0, 0, 0);
-            int active_handles = 0;
-            foreach (Transform handle in handles)
+            float count = 0;
+            Vector3 move = new Vector3(0,0,0);
+            Quaternion rotate = Quaternion.identity;
+            foreach(Tuple<Transform,Transform> handle in handles)
             {
-                if (handle.GetComponent<InteractiveHandle>().caught)
+                if (handle.Item2.GetComponent<InteractiveHandle>().caught)
                 {
-                    push -= handle.forward;
-                    active_handles++;
-                    pos += handle.position;
+                    count++;
+                    move += handle.Item2.position - handle.Item1.position;
+                    rotate *= Quaternion.Inverse(handle.Item1.rotation) * handle.Item2.rotation;
                 }
             }
-            if (active_handles != 0)
+            move /= count;
+            
+            if (count > 0)
             {
+
                 transform.GetComponent<Rigidbody>().isKinematic = true;
-                push.Normalize();
-                push *= rubberbanding*active_handles;
-                pos /= active_handles;
-                transform.position = pos + push;
+                transform.position += move;
+                transform.rotation *= rotate;
             }
             else
             {
                 transform.GetComponent<Rigidbody>().isKinematic = false;
 
             }
-
 
         }
     }
