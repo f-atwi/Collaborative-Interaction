@@ -60,6 +60,8 @@ namespace WasaaMP {
 
         void Update () {
             if (photonView.IsMine) {
+                // Movement behaviour modifies to resemble classic fps controls
+                // Head moves up and down when looking up and down but it is not synced using photon
                 float mouse_x = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
                 float mouse_y = -Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
                 var x = Input.GetAxis ("Horizontal") * Time.deltaTime * speed ;

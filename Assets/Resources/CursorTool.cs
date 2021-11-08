@@ -19,6 +19,7 @@ namespace WasaaMP {
 		}
         private void Update()
         {
+			// Created to fix the problem with handles remaining highlighted and set as targets after they snap back
 			if (!caught && target!=null && !target.caught)
 			{
 				bool inside = false;

@@ -6,17 +6,11 @@ using System;
 
 namespace WasaaMP {
     public class InteractiveObject : MonoBehaviourPun {
-
-        private Color colorBeforeHighlight;
-        private Color oldColor;
-        private float oldAlpha;
         public int required_players = 2;
-        private bool catchable = false;
-        private bool caught = false;
         private List<Tuple<Transform,Transform>> handles;
-        private float rubberbanding = 0.45f;
 
         void Start() {
+            // Defining the object's handles
             var children = transform.GetComponentInChildren<Transform>();
             handles = new List<Tuple<Transform,Transform>>();
             foreach (Transform child in children)
@@ -28,6 +22,7 @@ namespace WasaaMP {
         }
 
         void Update() {
+            // Updating the cubes positon and rotation according to all the active handles
             float count = 0;
             Vector3 move = new Vector3(0,0,0);
             Quaternion rotate = Quaternion.identity;
@@ -42,7 +37,7 @@ namespace WasaaMP {
             }
             move /= count;
             
-            if (count > 0)
+            if (count >= required_players)
             {
 
                 transform.GetComponent<Rigidbody>().isKinematic = true;
